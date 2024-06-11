@@ -1,0 +1,38 @@
+
+##Crear el Script de PowerShell Abrir PowerShell como Administrador: Haz clic derecho en el botón de Inicio y selecciona Windows PowerShell (Administrador).
+##Crear el Script:
+##Abre un editor de texto (como Notepad) y pega el siguiente script. Este script creará un acceso directo en la carpeta de inicio de Windows
+##para que el programa se ejecute al iniciar el sistema 
+
+# Ruta del programa que deseas ejecutar al inicio
+$programPath = "C:\Ruta\A\Tu\Programa.exe"  # Reemplaza con la ruta de tu programa
+
+# Ruta de la carpeta de inicio del usuario actual
+$startupFolder = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\Start Menu\Programs\Startup")
+
+# Nombre del acceso directo
+$shortcutName = "MiPrograma.lnk"  # Puedes cambiar el nombre del acceso directo
+
+# Crear un objeto COM para el acceso directo
+$WScriptShell = New-Object -ComObject WScript.Shell
+$shortcut = $WScriptShell.CreateShortcut([System.IO.Path]::Combine($startupFolder, $shortcutName))
+
+# Configurar las propiedades del acceso directo
+$shortcut.TargetPath = $programPath
+$shortcut.Save()
+
+Write-Output "El acceso directo para iniciar el programa se ha creado en la carpeta de inicio."
+
+##Guarda el script con la extension .ps1
+##Ejecutar el Script:
+##Para ejecutar el script guardado, abre PowerShell como administrador y navega hasta el directorio donde guardaste el archivo. Luego, ejecuta el script con el siguiente comando:
+##powershell
+.\CrearInicioAutomático.ps1
+
+#Explicación del Script
+#$programPath: Aquí debes especificar la ruta completa del programa que deseas ejecutar al inicio.
+#$startupFolder: Esta variable almacena la ruta de la carpeta de inicio del usuario actual.
+#$shortcutName: El nombre del acceso directo que se creará en la carpeta de inicio.
+#$WScriptShell: Se crea un objeto COM para manejar la creación del acceso directo.
+#$shortcut: Se configura el acceso directo con la ruta del programa y se guarda en la carpeta de inicio.
+#Este script creará un acceso directo en la carpeta de inicio del usuario actual, lo que hará que el programa especificado se ejecute automáticamente cada vez que inicies tu computadora 
